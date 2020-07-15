@@ -64,7 +64,7 @@ class BreadCrumb
      */
     public function setItems(array $items): BreadCrumb
     {
-        $this->items = $items;
+        $this->items = array_merge($this->items, $items);
 
         return $this;
     }
