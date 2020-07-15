@@ -1,0 +1,15 @@
+{
+    "name": "jeandev/breadcrumb",
+    "authors": [
+        {
+            "name": "Яо Куасси Жан-Клод",
+            "email": "jeanyao@ymail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
