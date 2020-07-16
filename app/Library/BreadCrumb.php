@@ -2,6 +2,12 @@
 namespace App\Library;
 
 
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+
+
 /**
  * Class BreadCrumb
  * @package App\Library
@@ -33,15 +39,25 @@ class BreadCrumb
     protected $domain = '';
 
 
+    /* @var Environment */
+    protected $environment;
+
+
     /**
      * BreadCrumb constructor.
      * @param array $items
-     */
-    public function __construct(array $items = [])
+     * @param Environment|null $environment
+    */
+    public function __construct(array $items = [], Environment $environment = null)
     {
         if($items)
         {
             $this->setItems($items);
+        }
+
+        if($environment)
+        {
+            $this->setTwigEnvironment($environment);
         }
     }
 
@@ -49,7 +65,7 @@ class BreadCrumb
     /**
      * @param string $separator
      * @return BreadCrumb
-     */
+    */
     public function setSeparator(string $separator): BreadCrumb
     {
         $this->separator = $separator;
@@ -71,9 +87,21 @@ class BreadCrumb
 
 
     /**
+     * @param Environment $environment
+     * @return BreadCrumb
+    */
+    public function setTwigEnvironment(Environment $environment)
+    {
+        $this->environment = $environment;
+
+        return $this;
+    }
+
+
+    /**
      * @param string $template
      * @return BreadCrumb
-     */
+    */
     public function setTemplate(string $template): BreadCrumb
     {
         $this->template = $template;
@@ -85,7 +113,7 @@ class BreadCrumb
     /**
      * @param string $domain
      * @return BreadCrumb
-     */
+    */
     public function setDomain(string $domain): BreadCrumb
     {
         $this->domain = $domain;
@@ -126,7 +154,7 @@ class BreadCrumb
             }
         }
 
-        return $breadCrumbHtml;
+        echo $breadCrumbHtml;
     }
 
 
@@ -135,9 +163,17 @@ class BreadCrumb
      * @param string $title
      * @param string $link
      * @return false|string
-     */
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+    */
     public function renderHtml(string $domain, string $title, string $link)
     {
+        if($this->environment instanceof Environment)
+        {
+            return $this->environment->render($this->template, compact('domain', 'title', 'link'));
+        }
+
         ob_start();
         @require $this->template;
         return ob_get_clean();
