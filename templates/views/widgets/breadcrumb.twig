@@ -1,1 +1,5 @@
-<a href="{{ link }}">{{ title }}</a>
+{% if link not is empty %}
+    <a href="{{ link }}">{{ title }}</a>
+{% else %}
+    <span style="color: #bbb;">{{ title }}</span>
+{% endif %}

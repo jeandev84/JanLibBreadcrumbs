@@ -45,19 +45,19 @@ class BreadCrumb
 
     /**
      * BreadCrumb constructor.
-     * @param array $items
      * @param Environment|null $environment
+     * @param array $items
     */
-    public function __construct(array $items = [], Environment $environment = null)
+    public function __construct(Environment $environment = null, array $items = [])
     {
-        if($items)
-        {
-            $this->setItems($items);
-        }
-
         if($environment)
         {
             $this->setTwigEnvironment($environment);
+        }
+
+        if($items)
+        {
+            $this->setItems($items);
         }
     }
 
@@ -127,7 +127,7 @@ class BreadCrumb
      * @param string $link
      * @return BreadCrumb
      */
-    public function add(string $title, string $link): BreadCrumb
+    public function add(string $title, string $link = null): BreadCrumb
     {
         $this->items[$title] = $link;
 
