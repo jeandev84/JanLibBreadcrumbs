@@ -11,8 +11,9 @@ $breadCrumb->add('Новости', 'site/new.php');
 $breadCrumb->add('Документы', 'site/document.php');
 $breadCrumb->add('Контакты', 'site/contact.php');
 
+# $breadCrumb->build();
 ?>
-
+<!DOCTYPE html>
 <div>
-    <?= $breadCrumb->build(); ?>
+    {{ breadcrumbs() }}
 </div>
